@@ -1,0 +1,13 @@
+.game-menu {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+}
+button {
+  appearance: none;
+  padding: 0.25rem;
+  font-family: inherit;
+  font-size: inherit;
+  border: 1px solid black;
+  border-radius: 0.4rem;
+}
