@@ -1,7 +1,9 @@
 .game-menu {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   gap: 0.5rem;
+
+  width: 100%;
 }
 button {
   appearance: none;
@@ -10,4 +12,11 @@ button {
   font-size: inherit;
   border: 1px solid black;
   border-radius: 0.4rem;
+}
+.game-menu__options {
+  display: flex;
+  gap: 0.5rem;
+}
+.game-menu__options > select {
+  flex: 1;
 }

@@ -1,12 +1,11 @@
 import Board from "./Board";
 import GameContextProvider from "./GameContextProvider";
 import GameMenu from "./GameMenu";
-import StatusDisplay from "./StatusDisplay";
 
 export default function Game() {
   return (
     <GameContextProvider>
-      <StatusDisplay />
+      <h1>Tic Tac Toe </h1>
       <Board />
       <GameMenu />
     </GameContextProvider>

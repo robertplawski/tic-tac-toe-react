@@ -4,7 +4,7 @@
   background-color: black;
   position: absolute;
   transform-origin: center;
-  transition: width 300ms;
+  transition: width 200ms;
   border-radius: 10px;
 }
 .line.hidden {

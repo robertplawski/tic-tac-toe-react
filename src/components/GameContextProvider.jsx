@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { GameContext } from "../contexts/GameContext";
 import { PropTypes } from "prop-types";
 
@@ -64,12 +64,29 @@ export default function GameContextProvider({ children }) {
     }
     return { winner: null };
   };
-  const placeMark = (index) => {
-    if (winner || !canPlay) {
+  const nextTurn = useCallback(() => {
+    setTurn(turn == "X" ? "O" : "X");
+  }, [setTurn, turn]);
+
+  const playerPlaceMark = (index) => {
+    if (!canPlay) {
       return;
     }
-    const newBoard = [...board];
-    if (!newBoard[index]) {
+    if (board[index]) {
+      return;
+    }
+    placeMark(index);
+    nextTurn();
+  };
+
+  const placeMark = useCallback(
+    (index) => {
+      const newBoard = [...board];
+
+      if (newBoard[index]) {
+        return;
+      }
+
       newBoard[index] = turn;
       setBoard(newBoard);
 
@@ -84,9 +101,37 @@ export default function GameContextProvider({ children }) {
         setCanPlay(false);
         return;
       }
-      setTurn(turn == "X" ? "O" : "X");
+    },
+    [setBoard, setTurn, turn, board]
+  );
+
+  useEffect(() => {
+    const computerPlaceMark = () => {
+      if (!canPlay) {
+        return;
+      }
+      const markedSquares = [
+        ...board.map((value, index) => {
+          if (value == "O" || value == "X") {
+            return index;
+          }
+        }),
+      ];
+
+      const availableSquares = [...Array(9).keys()].filter(
+        (value) => !markedSquares.includes(value)
+      );
+
+      const randomSquare =
+        availableSquares[Math.floor(Math.random() * availableSquares.length)];
+      placeMark(randomSquare);
+      nextTurn();
+    };
+
+    if (againstComputer && turn == "X") {
+      computerPlaceMark();
     }
-  };
+  }, [nextTurn, placeMark, board, againstComputer, turn, canPlay]);
 
   return (
     <GameContext.Provider
@@ -103,6 +148,7 @@ export default function GameContextProvider({ children }) {
         placeMark,
         againstComputer,
         setAgainstComputer,
+        playerPlaceMark,
       }}
     >
       {children}
