@@ -10,6 +10,8 @@ export default function GameMenu() {
     restartGame,
     againstComputer,
     setAgainstComputer,
+    algorithmDifficulty,
+    setAlgorithmDifficulty,
   } = useContext(GameContext);
   return (
     <div className="game-menu">
@@ -29,10 +31,13 @@ export default function GameMenu() {
               type="checkbox"
             ></input>
             {againstComputer && (
-              <select>
-                <option>Easy</option>
-                <option>Medium</option>
-                <option>Impossible</option>
+              <select
+                value={algorithmDifficulty}
+                onInput={({ target }) => setAlgorithmDifficulty(target.value)}
+              >
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="impossible">Impossible</option>
               </select>
             )}
           </div>
